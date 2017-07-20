@@ -1,5 +1,3 @@
-<!-- LoginModel.php -->
-
 <?php
 	
 	/**
@@ -14,11 +12,11 @@
 		}
 		public function login_msg()
 		{
-			$this->load->helper('url');
 
 			$data = array('name' => $this->input->post('username'),'pw' => $this->input->post('password'));
 			$query = $this->db->get_where('young',$data);
-			return $query->row_array();
+			return $query;
+			
 		}
 	}
 ?>

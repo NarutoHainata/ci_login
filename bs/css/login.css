@@ -1,0 +1,31 @@
+/*login.css*/
+.login {
+	margin-top: 100px;
+}
+.login_tit {
+	text-align: center;
+	font-size: 18px;
+	font-weight: 900;
+	/*background-color: #0f53e0;*/
+	margin: 20px auto;
+}
+.login_text {
+	margin: 0 auto;
+	padding-bottom: 50px;
+}
+.login_con {
+	background-color: #f8f8f8;
+	border: 1px solid;
+	border-color: #e7e7f1;
+	border-radius: 10px;
+}
+.input_user {
+	border-radius: 5px;
+	background-color:white;
+	border-style: solid;
+
+}
+.btn_submit {
+	/*background-color: transparent;*/
+	margin-top: 30px;
+}

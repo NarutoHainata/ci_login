@@ -1,45 +1,68 @@
-<!-- LoginCon.php -->
 <?php
-	
-	/**
-	* 一个继承至CI_Controller控制器的控制器
-	*/
-	class LoginCon extends CI_Controller
-	{
-		
-		public function __construct()
+class LoginCon extends CI_Controller{
+	// 构造函数
+			public function __construct()
 		{
 			parent::__construct();
+			// 加载登陆模型
 			$this->load->model('LoginModel');
-			$this->load->helper('url_helper');
-		}
-		public function login_check()
-		{
+			// 加载url辅助函数
+			$this->load->helper('url');
+			// 加载session类库
+			$this->load->library('session');
+			// 加载cookie辅助函数
+			$this->load->helper('cookie');
+			// 加载表单辅助函数
 			$this->load->helper('form');
+			// 加载表单验证类库
 			$this->load->library('form_validation');
+		}
+	public function index(){
+
+		$data['main_page'] = 'login_page';
+		$this->load->view('templates/show_pages',$data);
+		// $this->load->view('login_page');
+		}
+		// 登陆验证
+	public function login_check()
+		{
+			// 设置username以及password必填项
 			$this->form_validation->set_rules('username','username','required');
 			$this->form_validation->set_rules('password','password','required');
 
 			if ($this->form_validation->run() === FALSE) {
-				
+				// 验证失败
 				$this->load->view('login_page');
+
 			}
 			else {
-
-				$data['msg'] = $this->LoginModel->login_msg();
-
-				if (is_null($data['msg'])) {
+				// 验证成功
+				// 加载登陆模型
+				$this->load->model('LoginModel');
+				// 返回信息
+				$query = $this->LoginModel->login_msg();
+				if ($query->num_rows() == 1) {
+					$is_login = true;
+				}
+				// 登陆
+				if ($is_login) {
 					
-					echo "账号或密码错误";
-					$this->load->view('login_page');
-					 
+					$username = $this->input->post('username');
+					$data = $query->result_array();
+					$uid = $data[0]['id'];
+					
+					$data = array('uid' => $uid, 'username' =>$username ,'is_login' =>$is_login);
+					$this->session->set_userdata($data);
+					redirect('welcome/index/index');
 				}
 				else{
-
-					$data['name'] = $data['msg']['name'];
-					$this->load->view('success.php',$data);
-				}
+					$this->index();
+					}
+					}
 			}
+		public function siginin(){
+
+			$this->load->view('signin_page');
 		}
-	}
+}
 ?>
